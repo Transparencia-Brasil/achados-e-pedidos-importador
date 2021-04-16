@@ -1,0 +1,59 @@
+{% extends 'importer/base.html' %}
+
+{% block content %}
+<h1 style="text-align:center">Importador de Pedidos</h1>
+<div id="progress"><div class="bar">Processando...</div></div>
+<br/>
+<a href="/importer/index" class="button">Voltar</a>
+
+<script type="text/javascript">
+    var poll_xhr;
+    var willstop = 0;
+    var count_jobs = 0;
+
+    var progressbar = $( "#progress" ),
+      progressLabel = $( ".bar" );
+
+    progressbar.progressbar({
+      value: false,
+      change: function() {
+        progressLabel.text( progressbar.progressbar( "value" ) + "%" );
+      },
+      complete: function() {
+        progressLabel.text( "Finalizado" );
+      }
+    });
+
+    function poll(){
+      var status = "{{ data }}";
+      var job = "{{ job_id }}";
+
+      console.log("job: "+job);
+      $.post(
+        "loading",
+        {
+            job_id: job,
+            csrfmiddlewaretoken: "{{csrf_token}}",
+        },
+        function(result) {
+                    if (result.data !== "PENDING" && (result.data.process_percent == null || result.data.process_percent == undefined)) {
+                        willstop = 1
+                        progressbar.progressbar( "value", 100);
+                        window.location.replace("/importer/resultado");
+                    } else if (result.data !== "PENDING" && result.data.process_percent !== null) {
+                        progressbar.progressbar( "value", Math.floor(result.data.process_percent));
+                    } else {
+                        count_jobs = count_jobs + 1;
+                    }
+        }
+      );
+    };
+
+    var refreshIntervalId = setInterval(function() {
+      poll();
+      if(willstop == 1 || count_jobs == 20){
+        clearInterval(refreshIntervalId);
+      }
+    },500);
+</script>
+{% endblock %}

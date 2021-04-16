@@ -1,0 +1,22 @@
+{% extends 'importer/base.html' %}
+
+{% block content %}
+<h1 style="text-align:center">Importador de Pedidos</h1>
+<div id="container">
+{% if mensagem %}
+<p>{{ mensagem }}</p>
+{% endif %}
+<div id="index_content" class="colM">
+    <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form }}
+        Importar planilha para base de: <br/>
+        <input type="radio" name="target" value="stage" checked="checked"/> Stage <br/>
+        <input type="radio" name="target" value="production" /> Produção <br/>
+        <br/>
+        <input type="file" name="pedidos" required/> <br/>
+        <div align="center"><input type="submit" value="Upload"></div>
+    </form>
+</div>
+</div>
+{% endblock %}

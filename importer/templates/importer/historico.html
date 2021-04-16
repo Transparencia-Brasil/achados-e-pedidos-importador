@@ -1,0 +1,41 @@
+{% extends 'importer/base.html' %}
+
+{% block content %}
+<h1>Histórico de Pedidos</h1>
+<table align="center" id="tabela_historico" class="display" data-order='[[2 , "desc" ]]'>
+    <thead>
+        <tr>
+            <th>Usuario</th>
+            <th>Nome do Arquivo</th>
+            <th>Data</th>
+            <th>Pedidos Processados</th>
+            <th>Interações Processadas</th>
+            <th>Anexos Processados</th>
+            <th>Stage ou Produção</th>
+        </tr>
+    </thead>
+    <tbody>
+{% if importacoes %}
+    {% for importacao in importacoes %}
+        <tr>
+            <td>{{ importacao.usuario_tb|default_if_none:"Desconhecido" }}</td>
+            <td>{{ importacao.usuario }}</td>
+            <td>{{ importacao.criacao }}</td>
+            <td>{{ importacao.pedidos|default_if_none:"0" }}</td>
+            <td>{{ importacao.interacoes|default_if_none:"0" }}</td>
+            <td>{{ importacao.anexos|default_if_none:"0" }}</td>
+            <td>{{ importacao.target|default_if_none:"stage" }}</td>
+        </tr>
+    {% endfor %}
+{% endif %}
+    </tbody>
+</table>
+<br/>
+<a href="/importer/index" class="button">Voltar</a>
+
+<script type="text/javascript">
+$(document).ready( function () {
+    $('#tabela_historico').DataTable();
+} );
+</script>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends 'importer/base.html' %}
+
+{% block content %}
+<h1 style="text-align:center">Agentes Inseridos</h1>
+<p>Foram inseridos {{ agentes }} agente(s) na base.</p>
+<br/>
+<div>
+    <form action="{{ url }}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="submit" value="Voltar">
+    </form>
+</div>
+{% endblock %}

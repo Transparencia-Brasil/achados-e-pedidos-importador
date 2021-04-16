@@ -1,0 +1,48 @@
+{% extends 'importer/base.html' %}
+
+{% block content %}
+<div class="login">
+<div id="container">
+    <!-- Header -->
+    <div id="header">
+        <div id="branding">
+            <h1 id="site-name">Importador de Pedidos</h1>
+        </div>
+    </div>
+    <!-- END Header -->
+{% if form.errors %}
+<p class="errornote">Usuário ou senha incorreta. Por favor tente novamente.</p>
+{% endif %}
+
+{% if next %}
+    {% if user.is_authenticated %}
+    <p class="errornote">Seu usuário não tem acesso a essa página.</p>
+    {% endif %}
+{% endif %}
+
+    <div id="content" class="colM">
+        <div id="content-main">
+
+<form method="post" action="{% url 'login' %}" id="login-form">
+{% csrf_token %}
+
+<div class="form-row">
+  <td>{{ form.username.label_tag }}</td>
+  <td>{{ form.username }}</td>
+</div>
+<div class="form-row">
+  <td>{{ form.password.label_tag }}</td>
+  <td>{{ form.password }}</td>
+</div>
+
+  <input type="hidden" name="next" value="{{ next }}" />
+<div class="submit-row">
+  <label>&nbsp;</label><input type="submit" value="login" />
+</div>
+</form>
+
+        </div>    
+    <br class="clear" />
+    </div>
+</div>
+{% endblock %}

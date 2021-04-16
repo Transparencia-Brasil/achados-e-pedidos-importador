@@ -1,0 +1,14 @@
+env/
+importer/__pycache__/
+importer/*.save
+importer/dao/__pycache__/
+importer/dao/*.save
+importer/migrations/*.py
+importer/migrations/__pycache__/
+importer/template/importer/*.save
+__pycache__/
+achadosepedidos/tmp/
+importadorDB.sqlite3
+*.log
+*.pid
+*.save

@@ -1,0 +1,54 @@
+
+{% extends 'importer/base.html' %}
+
+{% block content %}
+<h1 style="text-align:center">Resultados</h1>
+{% if mensagem %}
+<p>{{ mensagem }}</p>
+{% endif %}
+<p>Pedidos processados: {{ num_pedidos }}.</p>
+<p>Interações processadas: {{ num_interacoes }}.</p>
+<p>Anexos processados: {{ anexos }}.</p>
+<p>Pendências encontradas: {{ num_pendencias }}.</p>
+{% if num_pendencias > 0 %}
+<div>
+    <a clas="button"  href = "/importer/pendencias">
+       Baixar pendencias
+    </a>
+</div>
+{% endif %}
+
+{% if agentes %}
+<br/>
+<br/>
+<table align="center">
+    <caption>Agentes a serem Adicionados</caption>
+    <tr>
+        <td>Nome</td>
+        <td>Poder</td>
+        <td>Nivel Federativo</td>
+        <td>UF</td>
+        <td>Cidade</td>
+    </tr>
+    {% for agente in agentes %}
+    <tr>
+        <td>{{ agente.nome }}</td>
+        <td>{{ agente.poder }}</td>
+        <td>{{ agente.nivel_fed }}</td>
+        <td>{% if agente.uf %}{{ agente.uf }}{% else %}-{% endif %}</td>
+        <td>{% if agente.cidade %}{{ agente.cidade }}{% else %}-{% endif %}</td>
+    </tr>
+    {% endfor %}
+</table>
+<div>
+    <p>Deseja adicionar esses agentes?</p>
+    <form action="/importer/inserir-agentes" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="submit" value="Sim">
+        <input type="button" onclick="history.back()" value="Não">
+    </form>
+</div>
+{% endif %}
+<br />
+<a href="/importer/index" class="button">Voltar</a>
+{% endblock %}
