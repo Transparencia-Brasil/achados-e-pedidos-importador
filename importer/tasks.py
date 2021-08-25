@@ -8,7 +8,7 @@ from os import listdir, path
 import csv
 import time
 import traceback
-from dotenv import dotenv_values
+import dotenv
 
 
 # Processa a planilha em background
@@ -114,7 +114,7 @@ def processaPlanilha(self, filename, target):
                     nome_pasta = row_interacao[14]
                     if nome_pasta and nome_pasta != '':
                         nome_pasta = nome_pasta.strip()
-                    caminho =  dotenv_values('.env.DIR_ASSETS') + nome_pasta
+                    caminho =  dotenv.get_key('.env', 'DIR_ASSETS') + nome_pasta
 
                     # Logica de anexos para qualquer planilha que não seja da CGU
                     if path.isdir(caminho) and nome_pasta and nome_pasta.lower() != 'cgu':

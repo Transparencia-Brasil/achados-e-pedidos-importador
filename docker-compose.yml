@@ -9,6 +9,7 @@ services:
         tty: true
         volumes:
         - .:/code
+        - ./importadorDB.sqlite3:/code/importadorDB.sqlite3
         ports:
         - "8000:8000"
         depends_on:
@@ -18,5 +19,21 @@ services:
         command: bash -c "cd /code && celery -A achadosepedidos worker -l info"
         volumes:
         - .:/code
+        - ./importadorDB.sqlite3:/code/importadorDB.sqlite3
         depends_on:
         - redis
+    database:
+        image: 'mysql:5.6'
+        restart: always
+        environment:
+           - MYSQL_DATABASE=achadosepedidos
+           - MYSQL_USER=achadosepedidos
+           - MYSQL_PASSWORD=secret
+           - MYSQL_ROOT_PASSWORD=secret
+        ports:
+        - '33061:3306'
+        volumes:
+        - my-db:/var/lib/mysql
+
+volumes:
+ my-db:
