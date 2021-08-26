@@ -9,6 +9,6 @@ RUN pip install -r /code/requirements.txt
 COPY . /code/
 WORKDIR /code/
 
-RUN python manage.py collectstatic
+RUN python manage.py collectstatic --no-input
 
 EXPOSE 8000
