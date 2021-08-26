@@ -86,18 +86,18 @@ DATABASES = {
     'stage': {
         'ENGINE': 'django.db.backends.mysql',
         'HOST': dotenv.get_key('.env', 'DB_HOST_STAGE'),
-        'NAME': dotenv.get_key('.env', 'DB_NAME'),
-        'PORT': dotenv.get_key('.env', 'DB_PORT'),
-        'USER': dotenv.get_key('.env', 'DB_USER'),
-        'PASSWORD': dotenv.get_key('.env', 'DB_PASSWORD'),
-    },
-    'production': {
-        'ENGINE': 'django.db.backends.mysql',
-        'HOST': dotenv.get_key('.env', 'DB_HOST_STAGE'),
         'NAME': dotenv.get_key('.env', 'DB_NAME_STAGE'),
         'PORT': dotenv.get_key('.env', 'DB_PORT_STAGE'),
         'USER': dotenv.get_key('.env', 'DB_USER_STAGE'),
         'PASSWORD': dotenv.get_key('.env', 'DB_PASSWORD_STAGE'),
+    },
+    'production': {
+        'ENGINE': 'django.db.backends.mysql',
+        'HOST': dotenv.get_key('.env', 'DB_HOST'),
+        'NAME': dotenv.get_key('.env', 'DB_NAME'),
+        'PORT': dotenv.get_key('.env', 'DB_PORT'),
+        'USER': dotenv.get_key('.env', 'DB_USER'),
+        'PASSWORD': dotenv.get_key('.env', 'DB_PASSWORD'),
     },
 }
 	
