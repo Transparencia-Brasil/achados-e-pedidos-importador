@@ -17,7 +17,7 @@ services:
         - database
     celery:
         build: .
-        command: bash -c "cd /code && celery -A achadosepedidos worker -l info"
+        command: bash -c "cd /code && celery -A achadosepedidos worker -l INFO"
         volumes:
         - .:/code
         - ./importadorDB.sqlite3:/code/importadorDB.sqlite3
