@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 
 import os
 import dotenv
+import json
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -90,6 +91,7 @@ DATABASES = {
         'PORT': dotenv.get_key('.env', 'DB_PORT_STAGE'),
         'USER': dotenv.get_key('.env', 'DB_USER_STAGE'),
         'PASSWORD': dotenv.get_key('.env', 'DB_PASSWORD_STAGE'),
+        'OPTIONS': json.loads(dotenv.get_key('.env', 'DB_SSL_CA_STAGE'))
     },
     'production': {
         'ENGINE': 'django.db.backends.mysql',
@@ -98,6 +100,7 @@ DATABASES = {
         'PORT': dotenv.get_key('.env', 'DB_PORT'),
         'USER': dotenv.get_key('.env', 'DB_USER'),
         'PASSWORD': dotenv.get_key('.env', 'DB_PASSWORD'),
+        'OPTIONS': json.loads(dotenv.get_key('.env', 'DB_SSL_CA'))
     },
 }
 	
