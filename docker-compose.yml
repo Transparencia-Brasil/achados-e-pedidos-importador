@@ -2,6 +2,12 @@ version: '3'
 services:
     redis:
         image: "redis:alpine"
+    rabbitmq:
+        image: "rabbitmq:3-management"
+        ports:
+        - "8001:15672"
+        - "5672:5672"
+        - "25676:25676"
     web:
         build: .
         command: bash -c "python /code/manage.py migrate --noinput && python /code/manage.py runserver 0.0.0.0:8000"
@@ -9,14 +15,34 @@ services:
         tty: true
         volumes:
         - .:/code
+        - ./importadorDB.sqlite3:/code/importadorDB.sqlite3
         ports:
         - "8000:8000"
         depends_on:
         - redis
+        - database
+        - rabbitmq
     celery:
         build: .
-        command: bash -c "cd /code && celery -A achadosepedidos worker -l info"
+        command: bash -c "cd /code && celery -A achadosepedidos worker -l INFO"
         volumes:
         - .:/code
+        - ./importadorDB.sqlite3:/code/importadorDB.sqlite3
         depends_on:
         - redis
+        - rabbitmq
+    database:
+        image: 'mysql:5.6'
+        restart: always
+        environment:
+           - MYSQL_DATABASE=achadosepedidos
+           - MYSQL_USER=achadosepedidos
+           - MYSQL_PASSWORD=secret
+           - MYSQL_ROOT_PASSWORD=secret
+        ports:
+        - '33061:3306'
+        volumes:
+        - my-db:/var/lib/mysql
+
+volumes:
+ my-db:

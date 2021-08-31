@@ -12,3 +12,4 @@ importadorDB.sqlite3
 *.log
 *.pid
 *.save
+.env

@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 import os
+import dotenv
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -20,19 +21,20 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = ''
+SECRET_KEY = dotenv.get_key('.env', 'SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = dotenv.get_key('.env', 'DEBUG')
 
 ALLOWED_HOSTS = [
-     'importador.achadosepedidos.org.br'
+    dotenv.get_key('.env', 'APP_HOST')
 ]
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'whitenoise.runserver_nostatic',
     'importer.apps.ImporterConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -44,6 +46,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -82,19 +85,19 @@ DATABASES = {
     },
     'stage': {
         'ENGINE': 'django.db.backends.mysql',
-        'HOST': 'localhost',
-        'NAME': '',
-        'PORT': '3306',
-        'USER': '',
-        'PASSWORD': '',
+        'HOST': dotenv.get_key('.env', 'DB_HOST_STAGE'),
+        'NAME': dotenv.get_key('.env', 'DB_NAME_STAGE'),
+        'PORT': dotenv.get_key('.env', 'DB_PORT_STAGE'),
+        'USER': dotenv.get_key('.env', 'DB_USER_STAGE'),
+        'PASSWORD': dotenv.get_key('.env', 'DB_PASSWORD_STAGE'),
     },
     'production': {
         'ENGINE': 'django.db.backends.mysql',
-        'HOST': 'localhost',
-        'NAME': '',
-        'PORT': '3306',
-        'USER': '',
-        'PASSWORD': '',
+        'HOST': dotenv.get_key('.env', 'DB_HOST'),
+        'NAME': dotenv.get_key('.env', 'DB_NAME'),
+        'PORT': dotenv.get_key('.env', 'DB_PORT'),
+        'USER': dotenv.get_key('.env', 'DB_USER'),
+        'PASSWORD': dotenv.get_key('.env', 'DB_PASSWORD'),
     },
 }
 	
@@ -122,12 +125,12 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
 
-FILE_CHARSET = 'utf-8'
-DEFAULT_CHARSET = 'utf-8'
+FILE_CHARSET = dotenv.get_key('.env', 'CHARSET')
+DEFAULT_CHARSET = dotenv.get_key('.env', 'CHARSET')
 
-LANGUAGE_CODE = 'pt-br'
+LANGUAGE_CODE = dotenv.get_key('.env', 'LANGUAGE_CODE') 
 
-TIME_ZONE = 'America/Sao_Paulo'
+TIME_ZONE = dotenv.get_key('.env', 'TIME_ZONE')
 
 USE_I18N = True
 
@@ -146,15 +149,18 @@ SESSION_COOKIE_AGE = 43200
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 
 # Redirect to home URL after login
 LOGIN_REDIRECT_URL = '/importer/index'
 LOGIN_URL = '/importer/login'
 
 # Celery configs
-BROKER_URL = 'amqp://localhost//'
+BROKER_URL = 'amqp://rabbitmq//'
 CELERY_RESULT_BACKEND = 'rpc://'
 CELERY_TIMEZONE = TIME_ZONE
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
+CELERY_BROKER_URL = 'amqp://guest:guest@rabbitmq'

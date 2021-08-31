@@ -9,7 +9,6 @@ from .tasks import processaPlanilha
 import csv
 import traceback
 
-
 # Tela inicial do sistema (se logado)
 @login_required
 def index(request):
@@ -51,6 +50,9 @@ def loading(request):  # não está ligado a uma tela, mas ao javascript q contr
             request.session['resultado'] = job.result
         if job.failed():
             request.session['erro'] = job.traceback
+    #return data
+    #return HttpResponse(data, content_type="application/json")
+    #return HttpResponse(json.simplejson.dumps(data), mimetype="application/json")
     return JsonResponse({'data':data})  # passa os status da thread para o javascript
 
 
