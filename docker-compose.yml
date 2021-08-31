@@ -2,6 +2,12 @@ version: '3'
 services:
     redis:
         image: "redis:alpine"
+    rabbitmq:
+        image: "rabbitmq:3-management"
+        ports:
+        - "8001:15672"
+        - "5672:5672"
+        - "25676:25676"
     web:
         build: .
         command: bash -c "python /code/manage.py migrate --noinput && python /code/manage.py runserver 0.0.0.0:8000"
@@ -15,6 +21,7 @@ services:
         depends_on:
         - redis
         - database
+        - rabbitmq
     celery:
         build: .
         command: bash -c "cd /code && celery -A achadosepedidos worker -l INFO"
@@ -23,6 +30,7 @@ services:
         - ./importadorDB.sqlite3:/code/importadorDB.sqlite3
         depends_on:
         - redis
+        - rabbitmq
     database:
         image: 'mysql:5.6'
         restart: always

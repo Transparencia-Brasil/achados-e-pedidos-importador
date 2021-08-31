@@ -157,9 +157,10 @@ LOGIN_REDIRECT_URL = '/importer/index'
 LOGIN_URL = '/importer/login'
 
 # Celery configs
-BROKER_URL = 'amqp://localhost//'
+BROKER_URL = 'amqp://rabbitmq//'
 CELERY_RESULT_BACKEND = 'rpc://'
 CELERY_TIMEZONE = TIME_ZONE
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
+CELERY_BROKER_URL = 'amqp://guest:guest@rabbitmq'
