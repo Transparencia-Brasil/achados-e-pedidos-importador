@@ -4,12 +4,13 @@ from django.db import IntegrityError
 from .dao import pedidosDAO, agentesDAO, interacoesDAO
 from .helper import upload_file, get_file, format_text_value, write_file, save_file, remove_file
 from datetime import datetime
-from os import listdir, path
+from os import listdir, path, getenv
 import csv
 import time
 import traceback
-import dotenv
+from dotenv import load_dotenv
 
+load_dotenv()
 
 # Processa a planilha em background
 @task(ignore_result=False, bind=True)
@@ -114,7 +115,7 @@ def processaPlanilha(self, filename, target):
                     nome_pasta = row_interacao[14]
                     if nome_pasta and nome_pasta != '':
                         nome_pasta = nome_pasta.strip()
-                    caminho =  dotenv.get_key('.env', 'DIR_ASSETS') + nome_pasta
+                    caminho =  getenv('DIR_ASSETS') + nome_pasta
 
                     # Logica de anexos para qualquer planilha que não seja da CGU
                     if path.isdir(caminho) and nome_pasta and nome_pasta.lower() != 'cgu':
