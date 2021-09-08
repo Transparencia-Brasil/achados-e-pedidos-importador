@@ -11,8 +11,10 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 import os
-import dotenv
+from dotenv import load_dotenv
 import json
+
+load_dotenv()
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -22,13 +24,13 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = dotenv.get_key('.env', 'SECRET_KEY')
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = dotenv.get_key('.env', 'DEBUG')
+DEBUG = os.getenv('DEBUG')
 
 ALLOWED_HOSTS = [
-    dotenv.get_key('.env', 'APP_HOST')
+    os.getenv('APP_HOST')
 ]
 
 
@@ -86,21 +88,21 @@ DATABASES = {
     },
     'stage': {
         'ENGINE': 'django.db.backends.mysql',
-        'HOST': dotenv.get_key('.env', 'DB_HOST_STAGE'),
-        'NAME': dotenv.get_key('.env', 'DB_NAME_STAGE'),
-        'PORT': dotenv.get_key('.env', 'DB_PORT_STAGE'),
-        'USER': dotenv.get_key('.env', 'DB_USER_STAGE'),
-        'PASSWORD': dotenv.get_key('.env', 'DB_PASSWORD_STAGE'),
-        'OPTIONS': json.loads(dotenv.get_key('.env', 'DB_SSL_CA_STAGE'))
+        'HOST': os.getenv('DB_HOST_STAGE'),
+        'NAME': os.getenv('DB_NAME_STAGE'),
+        'PORT': os.getenv('DB_PORT_STAGE'),
+        'USER': os.getenv('DB_USER_STAGE'),
+        'PASSWORD': os.getenv('DB_PASSWORD_STAGE'),
+        'OPTIONS': json.loads(os.getenv('DB_SSL_CA_STAGE'))
     },
     'production': {
         'ENGINE': 'django.db.backends.mysql',
-        'HOST': dotenv.get_key('.env', 'DB_HOST'),
-        'NAME': dotenv.get_key('.env', 'DB_NAME'),
-        'PORT': dotenv.get_key('.env', 'DB_PORT'),
-        'USER': dotenv.get_key('.env', 'DB_USER'),
-        'PASSWORD': dotenv.get_key('.env', 'DB_PASSWORD'),
-        'OPTIONS': json.loads(dotenv.get_key('.env', 'DB_SSL_CA'))
+        'HOST': os.getenv('DB_HOST'),
+        'NAME': os.getenv('DB_NAME'),
+        'PORT': os.getenv('DB_PORT'),
+        'USER': os.getenv('DB_USER'),
+        'PASSWORD': os.getenv('DB_PASSWORD'),
+        'OPTIONS': json.loads(os.getenv('DB_SSL_CA'))
     },
 }
 	
@@ -128,12 +130,12 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
 
-FILE_CHARSET = dotenv.get_key('.env', 'CHARSET')
-DEFAULT_CHARSET = dotenv.get_key('.env', 'CHARSET')
+FILE_CHARSET = os.getenv('CHARSET')
+DEFAULT_CHARSET = os.getenv('CHARSET')
 
-LANGUAGE_CODE = dotenv.get_key('.env', 'LANGUAGE_CODE') 
+LANGUAGE_CODE = os.getenv('LANGUAGE_CODE') 
 
-TIME_ZONE = dotenv.get_key('.env', 'TIME_ZONE')
+TIME_ZONE = os.getenv('TIME_ZONE')
 
 USE_I18N = True
 
