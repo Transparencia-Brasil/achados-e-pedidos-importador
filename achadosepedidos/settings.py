@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 
 import os
 from dotenv import load_dotenv
+import json
 
 load_dotenv()
 
@@ -92,6 +93,7 @@ DATABASES = {
         'PORT': os.getenv('DB_PORT_STAGE'),
         'USER': os.getenv('DB_USER_STAGE'),
         'PASSWORD': os.getenv('DB_PASSWORD_STAGE'),
+        'OPTIONS': json.loads(os.getenv('DB_SSL_CA_STAGE'))
     },
     'production': {
         'ENGINE': 'django.db.backends.mysql',
@@ -100,6 +102,7 @@ DATABASES = {
         'PORT': os.getenv('DB_PORT'),
         'USER': os.getenv('DB_USER'),
         'PASSWORD': os.getenv('DB_PASSWORD'),
+        'OPTIONS': json.loads(os.getenv('DB_SSL_CA'))
     },
 }
 	
