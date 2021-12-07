@@ -1,6 +1,6 @@
 #! /bin/bash
 apt -yqq install gcc rabbitmq-server
-#Copia a nova configuração do rabbitmq 
+#Copia a nova configuração do rabbitmq teste de VM
 cp -i /home/site/wwwroot/rabbitmq.conf /etc/rabbitmq/rabbitmq.conf
 service rabbitmq-server start
 
