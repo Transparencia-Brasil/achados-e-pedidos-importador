@@ -1,6 +1,6 @@
 #! /bin/bash
 apt -yqq install gcc rabbitmq-server
-cp -i /home/site/wwwroot/rabbitmq.conf /etc/rabbitmq/rabbitmq.conf
+yes | cp -f /home/site/wwwroot/rabbitmq.conf /etc/rabbitmq/rabbitmq.conf
 service rabbitmq-server start
 
 cd /home/site/wwwroot
